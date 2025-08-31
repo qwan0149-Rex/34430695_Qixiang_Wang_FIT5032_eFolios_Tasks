@@ -10,7 +10,7 @@
       <h3>Iterating through Arrays</h3>
       <!-- Activity 6: Render a list containing author names and their birth years. Hint: Make use of the v-for directive to iterate through the array of authors. -->
       <!-- TODO: CODE TO RENDER LIST OF AUTHORS HERE -->
-       <ul>
+      <ul>
         <li v-for="author in authors" :key="author.id">
           {{ author.name }} ({{ author.birthYear }})
         </li>
@@ -34,7 +34,6 @@
         <li v-for="work in allFamousWorks" :key="work">
           {{ work }}
         </li>
-
       </ul>
 
       <h3>Finding in Arrays</h3>
@@ -88,37 +87,34 @@
       <button @click="showMessage = !showMessage">Toggle Message</button>
       <p v-if="showMessage" class="message success">✨ You're a Vue superstar! ✨</p>
       <p v-else class="message">Click the button to see a message.</p>
-
     </section>
 
     <section class="lab-section">
       <h2>Attribute, Class and Style Binding with <code>v-bind</code></h2>
       <p>Highlighting Specific Authors:</p>
       <ul>
-      <li
-        v-for="author in authors"
-        :key="author.id"
-
-        :title="author.name === targetName ? 'Highlighted author' : ''"
-
-        :class="{ highlight: author.name === targetName }"
-
-        :style="author.name === targetName
-          ? { color: highlightColor, textDecoration: 'underline', fontWeight: 700 }
-          : {}"
-      >
-        {{ author.name }}
-      </li>
-    </ul>
+        <li
+          v-for="author in authors"
+          :key="author.id"
+          :title="author.name === targetName ? 'Highlighted author' : ''"
+          :class="{ highlight: author.name === targetName }"
+          :style="
+            author.name === targetName
+              ? { color: highlightColor, textDecoration: 'underline', fontWeight: 700 }
+              : {}
+          "
+        >
+          {{ author.name }}
+        </li>
+      </ul>
     </section>
-
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from "vue"
+import { ref, computed } from 'vue'
 import authors from '../assets/json/authors.json'
-import bookstores from '../assets/json/bookstores.json'
+// import bookstores from '../assets/json/bookstores.json'
 // Activity 1: Import JSON files (authors.json and bookstores.json)
 // TODO: CODE TO IMPORT JSON FILES HERE
 
@@ -148,13 +144,13 @@ const austen = computed(() => {
   return authors.find((author) => author.id === 1)
 })
 
-const targetName = 'George Orwell'    
-const highlightColor = '#d62828'    
+const targetName = 'George Orwell'
+const highlightColor = '#d62828'
 </script>
 
 <style scoped>
 .json-lab {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   max-width: none;
   margin: 0 auto;
   padding: 20px;
@@ -199,7 +195,7 @@ code {
   background-color: #e0e0e0;
   padding: 2px 5px;
   border-radius: 4px;
-  font-family: "Courier New", Courier, monospace;
+  font-family: 'Courier New', Courier, monospace;
 }
 
 ul {
@@ -213,9 +209,8 @@ li {
   border-radius: 5px;
 }
 .highlight {
-  background: #ffe8e8;  
+  background: #ffe8e8;
   padding: 2px 4px;
   border-radius: 4px;
 }
-
 </style>
