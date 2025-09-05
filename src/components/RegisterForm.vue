@@ -2,7 +2,8 @@
   <div class="container mt-5">
     <div class="row">
       <div class="col-md-8 offset-md-2">
-        <h1 class="text-center">User Information Form</h1>
+        <h1 class="text-center">W5. Library Registration Form</h1>
+        <p class="text-center text-muted">Let’s build some more advanced features into our form.</p>
         <form @submit.prevent="submitForm">
           <div class="row g-3 mb-3">
             <div class="col-12 col-sm-6">
@@ -19,33 +20,6 @@
             </div>
 
             <div class="col-12 col-sm-6">
-              <label for="password" class="form-label">Password</label>
-              <input
-                type="password"
-                id="password"
-                class="form-control"
-                v-model="formData.password"
-                @blur="() => validatePassword(true)"
-                @input="() => validatePassword(false)"
-              />
-              <div v-if="errors.password" class="text-danger">{{ errors.password }}</div>
-            </div>
-          </div>
-
-          <div class="row g-3 mb-3">
-            <div class="col-12 col-sm-6">
-              <div class="form-check mt-2">
-                <input
-                  type="checkbox"
-                  class="form-check-input"
-                  id="isAustralian"
-                  v-model="formData.isAustralian"
-                />
-                <label class="form-check-label" for="isAustralian"> Australian Resident? </label>
-              </div>
-            </div>
-
-            <div class="col-12 col-sm-6">
               <label for="gender" class="form-label">Gender</label>
               <select
                 class="form-select"
@@ -59,6 +33,47 @@
                 <option value="other">Other</option>
               </select>
               <div v-if="errors.gender" class="text-danger">{{ errors.gender }}</div>
+            </div>
+          </div>
+
+          <div class="row g-3 mb-3">
+            <div class="col-12 col-sm-6">
+              <label for="password" class="form-label">Password</label>
+              <input
+                type="password"
+                id="password"
+                class="form-control"
+                v-model="formData.password"
+                @blur="() => validatePassword(true)"
+                @input="() => validatePassword(false)"
+              />
+              <div v-if="errors.password" class="text-danger">{{ errors.password }}</div>
+            </div>
+
+            <div class="col-12 col-sm-6">
+              <label for="confirm-password" class="form-label">Confirm password</label>
+              <input
+                type="password"
+                id="confirm-password"
+                class="form-control"
+                v-model="formData.confirmPassword"
+                @blur="() => validateConfirmPassword(true)"
+              />
+              <div v-if="errors.confirmPassword" class="text-danger">
+                {{ errors.confirmPassword }}
+              </div>
+            </div>
+
+            <div class="col-12 col-sm-6">
+              <div class="form-check mt-2">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id="isAustralian"
+                  v-model="formData.isAustralian"
+                />
+                <label class="form-check-label" for="isAustralian"> Australian Resident? </label>
+              </div>
             </div>
           </div>
 
@@ -125,6 +140,7 @@ import Column from 'primevue/column'
 const formData = ref({
   username: '',
   password: '',
+  confirmPassword: '',
   isAustralian: false,
   reason: '',
   gender: '',
@@ -135,11 +151,13 @@ const submittedCards = ref([])
 const submitForm = () => {
   validateName(true)
   validatePassword(true)
+  validateConfirmPassword(true)
   validateGender(true)
   validateReason(true)
   if (
     !errors.value.username &&
     !errors.value.password &&
+    !errors.value.confirmPassword &&
     !errors.value.gender &&
     !errors.value.reason
   ) {
@@ -152,6 +170,7 @@ const clearForm = () => {
   Object.assign(formData.value, {
     username: '',
     password: '',
+    confirmPassword: '',
     isAustralian: false,
     reason: '',
     gender: '',
@@ -161,6 +180,7 @@ const clearForm = () => {
 const errors = ref({
   username: null,
   password: null,
+  confirmPassword: null,
   resident: null,
   gender: null,
   reason: null,
@@ -216,6 +236,14 @@ const validateReason = (blur) => {
     if (blur) errors.value.reason = `Reason must be at most ${max} characters.`
   } else {
     errors.value.reason = null
+  }
+}
+
+const validateConfirmPassword = (blur) => {
+  if (formData.value.password !== formData.value.confirmPassword) {
+    if (blur) errors.value.confirmPassword = 'Passwords do not match.'
+  } else {
+    errors.value.confirmPassword = null
   }
 }
 </script>
