@@ -1,5 +1,5 @@
 <template>
-  <div class="container mt-5">
+  <section class="mt-2">
     <div class="row">
       <div class="col-md-8 offset-md-2">
         <h1 class="text-center">W5. Library Registration Form</h1>
@@ -91,6 +91,11 @@
             <div v-if="errors.reason" class="text-danger">{{ errors.reason }}</div>
           </div>
 
+          <div class="mb-3">
+            <label for="suburb" class="form-label">Suburb</label>
+            <input type="text" id="suburb" class="form-control" v-model="formData.suburb" />
+          </div>
+
           <div class="text-center">
             <button type="submit" class="btn btn-primary me-2">Submit</button>
             <button type="button" class="btn btn-secondary" @click="clearForm">Clear</button>
@@ -105,6 +110,7 @@
             <Column field="isAustralian" header="Australian Resident"></Column>
             <Column field="gender" header="Gender"></Column>
             <Column field="reason" header="Reason"></Column>
+            <Column field="suburb" header="Suburb"></Column>
           </DataTable>
         </div>
 
@@ -130,7 +136,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script setup>
@@ -147,6 +153,7 @@ const formData = ref({
   isAustralian: false,
   reason: '',
   gender: '',
+  suburb: 'Clayton',
 })
 
 const submittedCards = ref([])
@@ -250,7 +257,27 @@ const validateConfirmPassword = (blur) => {
   }
 }
 </script>
+
 <style scoped>
+.container {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  max-width: 80vw;
+  margin: 0 auto;
+  padding: 20px;
+  /* background-color: #e0bfbf; */
+  border-radius: 10px;
+}
+
+/* Class selectors */
+.form {
+  text-align: center;
+  margin-top: 50px;
+}
+
+/* ID selectors */
+#username:focus,
+#password:focus,
+#isAustralian:focus,
 .card {
   border: 1px solid #ccc;
   border-radius: 10px;

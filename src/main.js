@@ -1,5 +1,6 @@
 import { createApp } from 'vue'
 import App from './App.vue'
+import router from './router'
 // import './style.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
@@ -10,7 +11,6 @@ import Aura from '@primeuix/themes/aura'
 // import Column from 'primevue/column'
 
 const app = createApp(App)
-
 app.use(PrimeVue, {
   theme: {
     preset: Aura,
@@ -20,4 +20,5 @@ app.use(PrimeVue, {
 // app.component('DataTable', DataTable)
 // app.component('Column', Column)
 
-createApp(App).mount('#app')
+app.use(router)
+app.mount('#app')
