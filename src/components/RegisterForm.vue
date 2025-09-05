@@ -87,6 +87,7 @@
               @blur="() => validateReason(true)"
               @input="() => validateReason(false)"
             ></textarea>
+            <div v-if="friendDetected" class="text-success mt-1">Great to have a friend</div>
             <div v-if="errors.reason" class="text-danger">{{ errors.reason }}</div>
           </div>
 
@@ -133,9 +134,11 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
+
+const friendDetected = computed(() => /\bfriend\b/i.test(formData.value.reason || ''))
 
 const formData = ref({
   username: '',
