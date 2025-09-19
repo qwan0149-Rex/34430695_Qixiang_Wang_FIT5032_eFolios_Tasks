@@ -1,7 +1,7 @@
 <template>
   <!-- Using Bootstrap's Header template (starter code) -->
   <!-- https://getbootstrap.com/docs/5.0/examples/headers/ -->
-  <header class="d-flex justify-content-center py-3">
+  <header class="d-flex justify-content-between py-3">
     <ul class="nav nav-pills">
       <li class="nav-item">
         <router-link to="/" class="nav-link" active-class="active" aria-current="page"
@@ -12,18 +12,58 @@
         <router-link to="/about" class="nav-link" active-class="active">About</router-link>
       </li>
       <li class="nav-item">
+        <router-link to="/addbook" class="nav-link" active-class="active">Add Book</router-link>
+      </li>
+      <li class="nav-item">
         <router-link to="/Firelogin" class="nav-link" active-class="active"
           >Firebase Login</router-link
         >
       </li>
-      <li class="nav-item">
-        <router-link to="/FireRegister" class="nav-link" active-class="active"
-          >Firebase Register</router-link
+      <li class="nav-item" v-if="!currentUser">
+        <RouterLink to="/FireRegister" class="nav-link" active-class="active"
+          >Firebase Register</RouterLink
         >
       </li>
     </ul>
+    <div class="d-flex align-items-center">
+      <span v-if="currentUser" class="me-2 text-muted small">{{ currentUser.email }}</span>
+      <button v-if="currentUser" class="btn btn-outline-secondary btn-sm" @click="logout">
+        Logout
+      </button>
+    </div>
   </header>
 </template>
+
+<script setup>
+import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { useRouter } from 'vue-router'
+import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth'
+
+const router = useRouter()
+const auth = getAuth()
+const currentUser = ref(null)
+
+let stopWatch = null
+onMounted(() => {
+  stopWatch = onAuthStateChanged(auth, (u) => {
+    currentUser.value = u
+    console.log('header current user:', u)
+  })
+})
+onBeforeUnmount(() => {
+  if (stopWatch) stopWatch()
+})
+
+const logout = async () => {
+  try {
+    await signOut(auth)
+    router.push('/FireLogin')
+  } catch (e) {
+    console.error(e)
+    alert(e.code)
+  }
+}
+</script>
 
 <style scoped>
 .b-example-divider {
